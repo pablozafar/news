@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JABAR News - Portal Berita Jawa Barat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #006837;
+            --secondary-color: #FFD700;
+            --accent-color: #D32F2F;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+            --gray-color: #6c757d;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo img {
+            height: 60px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s;
+            padding: 5px 0;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background-color: var(--secondary-color);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        .hero-btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        .hero-btn:hover {
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        /* Articles */
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--secondary-color);
+            display: inline-block;
+        }
+        
+        .article-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .article-content {
+            padding: 25px;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .article-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            line-height: 1.3;
+        }
+        
+        .article-excerpt {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        /* Sidebar */
+        .sidebar-widget {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .sidebar-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .news-list {
+            list-style: none;
+        }
+        
+        .news-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .news-item a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .news-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        .news-date {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            margin-top: 5px;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background-color: #e9f7ef;
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 0 5px 5px 0;
+            margin-bottom: 25px;
+        }
+        
+        .info-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .gallery-item {
+            border-radius: 5px;
+            overflow: hidden;
+            height: 120px;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+        
+        .footer-column p, .footer-column a {
+            color: #ddd;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #ddd;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav {
+                width: 100%;
+                margin-top: 20px;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 25px;
+                right: 15px;
+            }
+            
+            .hero {
+                padding: 70px 0;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.6rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .article-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-newspaper" style="font-size: 2.5rem; color: var(--secondary-color);"></i>
+                <h1>JABAR<span>News</span></h1>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="#"><i class="fas fa-city"></i> Kabupaten/Kota</a></li>
+                    <li><a href="#"><i class="fas fa-newspaper"></i> Politik</a></li>
+                    <li><a href="#"><i class="fas fa-landmark"></i> Ekonomi</a></li>
+                    <li><a href="#"><i class="fas fa-utensils"></i> Kuliner</a></li>
+                    <li><a href="#"><i class="fas fa-mountain"></i> Wisata</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Selamat Datang di Portal Berita Jawa Barat</h2>
+            <p>Dapatkan informasi terkini seputar Jawa Barat, mulai dari perkembangan politik, ekonomi, budaya, hingga destinasi wisata terbaik di provinsi dengan penduduk terbesar di Indonesia.</p>
+            <a href="#berita-terbaru" class="hero-btn">Baca Berita Terbaru</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Articles Section -->
+            <main>
+                <h2 class="section-title" id="berita-terbaru">Berita Terbaru</h2>
+                
+                <article class="article-card">
+                    <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3d4c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1450&q=80" alt="Bandung Smart City" class="article-image">
+                    <div class="article-content">
+                        <span class="article-category">Teknologi</span>
+                        <h3 class="article-title">Bandung Terus Kembangkan Konsep Smart City, Jadi Percontohan Nasional</h3>
+                        <p class="article-excerpt">Kota Bandung terus memperkuat implementasi konsep smart city dengan meluncurkan beberapa inisiatif baru dalam sistem pelayanan publik berbasis digital. Wali Kota Bandung mengatakan, kota ini telah menjadi percontohan nasional dalam transformasi digital pemerintahan.</p>
+                        <div class="article-meta">
+                            <span><i class="far fa-calendar"></i> 15 Oktober 2023</span>
+                            <span><i class="far fa-clock"></i> 5 menit baca</span>
+                            <span><i class="far fa-user"></i> Ahmad Fauzi</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card">
+                    <img src="https://images.unsplash.com/photo-1593693397186-bb6c0e16279c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Cirebon Batik Festival" class="article-image">
+                    <div class="article-content">
+                        <span class="article-category">Budaya</span>
+                        <h3 class="article-title">Festival Batik Cirebon Sukses Tarik 10.000 Pengunjung, Angkat Kekayaan Budaya Lokal</h3>
+                        <p class="article-excerpt">Festival Batik Cirebon yang digelar selama tiga hari di Gedung Negara berhasil menarik lebih dari 10.000 pengunjung. Acara ini menampilkan berbagai motif batik khas Cirebon seperti Mega Mendung, serta workshop pembuatan batik untuk generasi muda.</p>
+                        <div class="article-meta">
+                            <span><i class="far fa-calendar"></i> 12 Oktober 2023</span>
+                            <span><i class="far fa-clock"></i> 4 menit baca</span>
+                            <span><i class="far fa-user"></i> Sari Dewi</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card">
+                    <img src="https://images.unsplash.com/photo-1564501049418-3c27787d01e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Pertanian di Jabar" class="article-image">
+                    <div class="article-content">
+                        <span class="article-category">Ekonomi</span>
+                        <h3 class="article-title">Produksi Beras Jawa Barat Tumbuh 5.2% di Kuartal III 2023</h3>
+                        <p class="article-excerpt">Badan Pusat Statistik (BPS) Jawa Barat mencatat pertumbuhan produksi beras sebesar 5.2% pada kuartal III 2023. Peningkatan ini didorong oleh perluasan lahan pertanian dan program intensifikasi pertanian di beberapa kabupaten seperti Subang, Indramayu, dan Karawang.</p>
+                        <div class="article-meta">
+                            <span><i class="far fa-calendar"></i> 10 Oktober 2023</span>
+                            <span><i class="far fa-clock"></i> 3 menit baca</span>
+                            <span><i class="far fa-user"></i> Rizki Pratama</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="article-card">
+                    <img src="https://images.unsplash.com/photo-1564501049418-3c27787d01e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Wisata Jabar" class="article-image">
+                    <div class="article-content">
+                        <span class="article-category">Wisata</span>
+                        <h3 class="article-title">Destinasi Wisata di Priangan Timur Capai 80% Okupansi Selama Akhir Pekan</h3>
+                        <p class="article-excerpt">Kawasan wisata di Priangan Timur seperti Ciwidey, Pangalengan, dan Situ Patenggang mencapai tingkat okupansi 80% selama akhir pekan. Pemerintah daerah memperkirakan kenaikan jumlah wisatawan seiring dengan pembukaan jalur akses yang lebih baik.</p>
+                        <div class="article-meta">
+                            <span><i class="far fa-calendar"></i> 8 Oktober 2023</span>
+                            <span><i class="far fa-clock"></i> 4 menit baca</span>
+                            <span><i class="far fa-user"></i> Dian Sastrowardoyo</span>
+                        </div>
+                    </div>
+                </article>
+            </main>
+            
+            <!-- Sidebar -->
+            <aside>
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">Berita Populer</h3>
+                    <ul class="news-list">
+                        <li class="news-item">
+                            <a href="#">Pembangunan Kereta Cepat Jakarta-Bandung Masuki Tahap Akhir</a>
+                            <span class="news-date">14 Oktober 2023</span>
+                        </li>
+                        <li class="news-item">
+                            <a href="#">Gubernur Jabar Resmikan 5 Rumah Sakit Baru di Daerah Terpencil</a>
+                            <span class="news-date">13 Oktober 2023</span>
+                        </li>
+                        <li class="news-item">
+                            <a href="#">Kuliner Khas Sunda: Sate Maranggi Purwakarta Diusulkan sebagai Warisan Budaya</a>
+                            <span class="news-date">11 Oktober 2023</span>
+                        </li>
+                        <li class="news-item">
+                            <a href="#">Tingkat Pengangguran di Jabar Turun ke 6.7%, Terendah dalam 5 Tahun</a>
+                            <span class="news-date">9 Oktober 2023</span>
+                        </li>
+                        <li class="news-item">
+                            <a href="#">Festival Seni Budaya Sunda Digelar di Gedung Sate, Tampilkan 1000 Seniman</a>
+                            <span class="news-date">7 Oktober 2023</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h3>Info Cepat Jawa Barat</h3>
+                    <p><strong>Ibu Kota:</strong> Bandung</p>
+                    <p><strong>Luas Wilayah:</strong> 35,377.76 km²</p>
+                    <p><strong>Jumlah Penduduk:</strong> ± 49.9 juta (2022)</p>
+                    <p><strong>Jumlah Kabupaten/Kota:</strong> 18 Kabupaten & 9 Kota</p>
+                    <p><strong>Bahasa Daerah:</strong> Sunda, Cirebon, Melayu Betawi</p>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">Galeri Jabar</h3>
+                    <div class="gallery">
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1564501049418-3c27787d01e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Pegunungan Jabar">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3d4c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Kota Bandung">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1593693397186-bb6c0e16279c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Budaya Jabar">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1564501049418-3c27787d01e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Pertanian Jabar">
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>JABAR News</h3>
+                    <p>Portal berita terpercaya tentang Jawa Barat. Menyajikan informasi terkini, akurat, dan komprehensif seputar perkembangan di provinsi Jawa Barat.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Kategori Berita</h3>
+                    <a href="#">Politik</a>
+                    <a href="#">Ekonomi</a>
+                    <a href="#">Sosial Budaya</a>
+                    <a href="#">Wisata</a>
+                    <a href="#">Olahraga</a>
+                    <a href="#">Kesehatan</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Kabupaten/Kota</h3>
+                    <a href="#">Bandung</a>
+                    <a href="#">Bogor</a>
+                    <a href="#">Cirebon</a>
+                    <a href="#">Tasikmalaya</a>
+                    <a href="#">Garut</a>
+                    <a href="#">Sukabumi</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Kontak Kami</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Gedung Sate, Jl. Diponegoro No.22, Bandung</p>
+                    <p><i class="fas fa-phone"></i> (022) 1234-5678</p>
+                    <p><i class="fas fa-envelope"></i> redaksi@jabarnews.id</p>
+                    <p><i class="fas fa-globe"></i> www.jabarnews.id</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 JABAR News. Hak Cipta Dilindungi Undang-Undang.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            mainNav.classList.toggle('active');
+            const icon = this.querySelector('i');
+            if (mainNav.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                        mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                    }
+                }
+            });
+        });
+        
+        // Add active class to current page in navigation
+        const currentLocation = window.location.href;
+        const navLinks = document.querySelectorAll('nav a');
+        
+        navLinks.forEach(link => {
+            if (link.href === currentLocation) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
